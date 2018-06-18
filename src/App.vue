@@ -5,7 +5,8 @@
     <search-bar :searchtext="query" :send-query="searchHit"/>
     <span class="loader" v-if="state"><img src="./assets/loader.gif" alt="loader"></span>
     <div class="book-collection">
-      <bookItem :book-info="item" v-for="item in bookitem" :key="item"/>
+      <bookItem :book-info="item" v-for="(item , index) in bookitem" :key="index"  :index="index + 1" :open-drawer="openDrawer"/>
+      <productDrawer v-if="show" :index="pindex" :bookdetail="bookPitem"/>
     </div>
   </div>
 </template>
@@ -14,6 +15,7 @@
 // import HelloWorld from './components/HelloWorld.vue'
 import searchBar from './components/search-bar.vue'
 import bookItem from './components/book-item'
+import productDrawer from './components/product-drawer'
 import axios from 'axios'
 
 export default {
@@ -25,14 +27,18 @@ export default {
       },
       bookApi:"https://www.googleapis.com/books/v1/volumes?q=",
       bookitem:[],
+      bookPitem:null,
       seen:false,
       state:false,
+      show:false,
+      pindex:0
     }
   },
   components: {
     // HelloWorld
     searchBar,
-    bookItem
+    bookItem,
+    productDrawer
   },
   methods:{
     searchHit: function(){
@@ -44,6 +50,27 @@ export default {
         _this.state = false;
       });
     },
+    openDrawer: function(index,xyz){
+      this.show = true;
+      this.bookPitem = xyz;
+      this.getPosition(index, 4);
+      console.log("hi")
+    },
+    getPosition: function(index, col){
+      var rem = index % col;
+      if (index <= col) {
+        this.pindex = col;
+      }else if (rem == 0){
+        this.pindex = index;
+      }
+      else {
+        var rem = index % col;
+        var inc = col - rem;
+        var updateIndex = index + inc;
+        console.log(updateIndex);
+        this.pindex = updateIndex;
+      }
+    }
   }
 }
 

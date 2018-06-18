@@ -1,5 +1,5 @@
 <template>
-    <div class="book-item">
+    <div class="book-item"  :style="{'order':index}" @click="openDrawer(index, bookInfo)">
         <div class="book-image">
             <img :src="bookInfo.volumeInfo.imageLinks.thumbnail" v-if="bookInfo.volumeInfo.imageLinks">
             <span v-else>No thumbail available</span>
@@ -23,6 +23,14 @@ export default{
         bookInfo: {
             type: Object,
             required: true
+        },
+        openDrawer:{
+            type: Function,
+            default: () => Function
+        },
+        index: {
+            type:Number,
+            default:0
         }
     },
     computed:{
