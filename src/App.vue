@@ -4,9 +4,12 @@
     <HelloWorld msg="Welcome to Your Vue.js App"/> -->
     <search-bar :searchtext="query" :send-query="searchHit"/>
     <span class="loader" v-if="state"><img src="./assets/loader.gif" alt="loader"></span>
-    <div class="book-collection">
-      <bookItem :book-info="item" v-for="(item , index) in bookitem" :key="index"  :index="index + 1" :open-drawer="openDrawer"/>
-      <productDrawer v-if="show" :index="pindex" :bookdetail="bookPitem"/>
+    <div class="searchresult">
+        <p class="searchlabel" v-if="requestInit" :style="{'opacity':state ? '0' : '1'}">Showing results for <b>{{searchText}}</b></p>
+        <div class="book-collection">
+          <bookItem :book-info="item" v-for="(item , index) in bookitem" :key="index"  :index="index + 1" :open-drawer="openDrawer"/>
+          <productDrawer v-if="show && bookPitem" :index="pindex" :bookdetail="bookPitem"/>
+        </div>
     </div>
   </div>
 </template>
@@ -30,8 +33,10 @@ export default {
       bookPitem:null,
       seen:false,
       state:false,
+      requestInit: false,
       show:false,
-      pindex:0
+      pindex:0,
+      searchText: ""
     }
   },
   components: {
@@ -48,6 +53,8 @@ export default {
         console.log(resp.data.items);
         _this.bookitem = resp.data.items;
         _this.state = false;
+        _this.requestInit = true;
+        _this.searchText = _this.query.q;
       });
     },
     openDrawer: function(index,xyz){
@@ -83,7 +90,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 30px;
 }
 
 * {
@@ -100,6 +106,18 @@ export default {
     margin:0px auto;
     width:100%;
 }
+.searchlabel {
+  margin-top: 20px;
+}
+
+.searchlabel b {
+  border-bottom: 1px solid #333;
+}
+
+.searchresult {
+  background-color:#f2f2f2;
+  overflow: hidden;
+}
 
 .loader {
   display: flex;
@@ -112,6 +130,7 @@ export default {
   width: 100%;
   height: 100%;
   background-color:rgba(0,0,0,.5);
+  z-index: 9;
 }
 
 .loader img {

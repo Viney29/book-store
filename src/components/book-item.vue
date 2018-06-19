@@ -43,27 +43,39 @@ export default{
 
 <style scoped>
 .book-item {
-    flex:1 1 20%;
+    flex:1 1 calc(25% - 30px);
     margin:15px;
-    border: 1px solid #42b983;
+    /* border: 1px solid #42b983; */
     padding: 10px;
-    max-width:200px;
-    background-color:#f2f2f2;
+    max-width:calc(25% - 30px);
+    background-color:#fff;
     width:100%;
     order: 1;
     display: flex;
     flex-direction: column;
+    cursor: pointer;
+    box-shadow: 4px 5px 15px -2px #d2d0d0;
+    transform: scale(.95);
+    transition: all .1s linear;
+}
+.book-item:hover {
+    transform: scale(1);
 }
 
 .book-image{
     display:flex;
-    height: 280px;
+    position: relative;
+    padding-top: 100%;
     justify-content: center;
     align-items: center;
 }
 .book-image img {
-    width:100%;
-    height:100%;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    object-fit: cover;
 }
 
 .book-detail {
@@ -78,6 +90,10 @@ export default{
     color:#36495D;
     margin-bottom: 10px;
     font-size: 14px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    padding:0px 10px;
 }
 
 </style>

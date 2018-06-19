@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="searchBar">
 		<h2>My Book Store</h2>
 		<div>
 			<div class="search-bar">
@@ -7,7 +7,6 @@
 				<button @click="btnClick">Search</button>
 			</div>
 		</div>
-		<hr>
 	</div>
 </template>
 
@@ -43,6 +42,12 @@
 </script>
 
 <style scoped>
+
+.searchBar {
+    overflow: hidden;
+    background: #fafafa;
+    padding-top: 30px;
+}
 
 h2 {
 	font-size:32px;
@@ -80,7 +85,8 @@ hr {
 	height:0px;
 	width:100%;
 	border:0px;
-	box-shadow:0px 4px 8px 1px #36495D;
+	border-bottom:1px solid #f2f2f2;
+	/* box-shadow:0px 4px 8px 1px #36495D; */
 	margin-bottom: 30px;
 }
 
