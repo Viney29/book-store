@@ -36,7 +36,8 @@ export default {
       requestInit: false,
       show:false,
       pindex:0,
-      searchText: ""
+      searchText: "",
+      isActive: false
     }
   },
   components: {
@@ -59,6 +60,7 @@ export default {
     },
     openDrawer: function(index,xyz){
       this.show = true;
+      this.isActive = true;
       this.bookPitem = xyz;
       this.getPosition(index, 4);
       console.log("hi")
@@ -71,7 +73,7 @@ export default {
         this.pindex = index;
       }
       else {
-        var rem = index % col;
+        rem = index % col;
         var inc = col - rem;
         var updateIndex = index + inc;
         console.log(updateIndex);
@@ -103,7 +105,7 @@ export default {
     flex-wrap:wrap;
     justify-content: center;
     max-width: 1200px;
-    margin:0px auto;
+    margin:20px auto 0px;
     width:100%;
 }
 .searchlabel {

@@ -1,5 +1,5 @@
 <template>
-    <div class="book-item"  :style="{'order':index}" @click="openDrawer(index, bookInfo)">
+    <div class="book-item"  :style="{'order':index}" @click="openDrawer(index, bookInfo)" :class="{active: isActive}">
         <div class="book-image">
             <img :src="bookInfo.volumeInfo.imageLinks.thumbnail" v-if="bookInfo.volumeInfo.imageLinks">
             <span v-else>No thumbail available</span>
@@ -8,7 +8,7 @@
             <h3 class="book-title"> {{ bookInfo.volumeInfo.title}}</h3>
             <p>
                 <a class="book-link" target="_blank" :href="bookInfo.volumeInfo.previewLink">Preview</a>
-                <span class="book-price">${{ priceGen }}</span>
+                <span class="book-price"> Price ${{ priceGen }}</span>
             </p>
         </div>
         <!-- <div class="book-description">
@@ -18,7 +18,8 @@
 </template>
 
 <script>
-export default{
+export default {
+
     props:{
         bookInfo: {
             type: Object,
@@ -55,7 +56,7 @@ export default{
     flex-direction: column;
     cursor: pointer;
     box-shadow: 4px 5px 15px -2px #d2d0d0;
-    transform: scale(.95);
+    transform: scale(.965);
     transition: all .1s linear;
 }
 .book-item:hover {
@@ -68,6 +69,7 @@ export default{
     padding-top: 100%;
     justify-content: center;
     align-items: center;
+    background: #fafafa;
 }
 .book-image img {
     width: 100%;
@@ -77,11 +79,27 @@ export default{
     top: 0;
     object-fit: cover;
 }
+.book-image span {
+    position: absolute;
+    top:50%;
+    transform: translateY(-50%);
+    text-align: center;
+    width:80%;
+    left: 0;
+    right:0;
+    margin: auto;
+}
 
 .book-detail {
     display: flex;
     flex-direction: column;
-    margin-top: 10px;
+    margin: 10px 0px;;
+    padding: 0px 5px;
+}
+
+.book-detail p {
+    display: flex;
+    justify-content: space-between;
 }
 
 .book-title {
@@ -94,6 +112,10 @@ export default{
     white-space: nowrap;
     overflow: hidden;
     padding:0px 10px;
+}
+
+a {
+    color:#42b983;
 }
 
 </style>

@@ -5,8 +5,16 @@
 				<img :src="bookImg" />
 			</div>
 			<div class="right-side">
-				<h2>{{ bookdetail.volumeInfo.title}}</h2>
-				<p>{{bookdetail.volumeInfo.description}}</p>
+				<h2>Title: {{ bookdetail.volumeInfo.title}}</h2>
+				<h3><span class="title">Subtitle </span>: {{bookdetail.volumeInfo.subtitle}}</h3>
+				<h3><span class="title">Authors </span>: {{joinAuthor}}</h3>
+				<h3><span class="title">Publisher </span>: {{bookdetail.volumeInfo.publisher}}</h3>
+				<h3><span class="title">Published-Date </span>: {{bookdetail.volumeInfo.publishedDate}}</h3>
+				<p v-html=" '<b>Description: </b>' + bookdetail.volumeInfo.description"></p>
+				<p class="book-links">
+					<a class="c-btn" target="_blank" :href="bookdetail.volumeInfo.previewLink">Preview</a>
+					<a class="c-btn" href="">Add to Wishlist</a>
+				</p>
 			</div>
 		</div>
 	</div>
@@ -26,10 +34,15 @@ export default{
 	},
 
 	computed:{
+
 		bookImg(){
 			if( this.bookdetail ){
 				return this.bookdetail.volumeInfo.imageLinks ? this.bookdetail.volumeInfo.imageLinks.thumbnail : "";
 			}
+		},
+
+		joinAuthor(){
+			return this.bookdetail.volumeInfo.authors.join(',');
 		}
 	}
 }
@@ -50,7 +63,7 @@ export default{
 
 .left-side {
 	flex:1 1 25%;
-	border-right: 1px solid #f2f2f2;
+	border: 1px solid #f2f2f2;
 }
 
 .left-side img {
@@ -62,7 +75,7 @@ h2 {
 	line-height: 34px;
 	padding-bottom: 10px;
 	border-bottom: 1px solid #f2f2f2;
-	margin-bottom: 30px;
+	margin-bottom: 10px;
 }
 
 .right-side {
@@ -71,5 +84,32 @@ h2 {
 	display: flex;
 	flex-direction: column;
 	text-align: left;
+	position: relative;
+}
+.book-links {
+	display: flex;
+	justify-content: space-between;
+	position: absolute;
+	bottom:0px;
+	width: calc(100% - 40px);
+	left: 0px;
+	right: 0;
+	margin: auto;
+}
+.title {
+	display: inline-block;
+	min-width:100px;
+}
+.c-btn {
+	padding:10px 20px;
+	min-width:150px;
+	border:1px solid #42b983;
+	text-align: center;
+	display: inline-block;
+	text-transform: uppercase;
+	text-decoration: none;
+	font-size: 14px;
+	font-weight: bold;
+	color:#39495C;
 }
 </style>
