@@ -13,7 +13,7 @@
 				<p v-html=" '<b>Description: </b>' + bookdetail.volumeInfo.description"></p>
 				<p class="book-links">
 					<a class="c-btn" target="_blank" :href="bookdetail.volumeInfo.previewLink">Preview</a>
-					<a class="c-btn" href="">Add to Wishlist</a>
+					<a class="c-btn" href="">Add to Wishlist  <i class="fa fa-heart"></i></a>
 				</p>
 			</div>
 		</div>
@@ -42,7 +42,9 @@ export default{
 		},
 
 		joinAuthor(){
-			return this.bookdetail.volumeInfo.authors.join(',');
+			if(this.bookdetail.volumeInfo.authors){
+				return this.bookdetail.volumeInfo.authors.join(',');
+			}
 		}
 	}
 }
@@ -70,6 +72,7 @@ export default{
 	width:100%;
 	object-fit: cover;
 }
+
 h2 {
 	font-size: 24px;
 	line-height: 34px;
@@ -80,7 +83,7 @@ h2 {
 
 .right-side {
 	flex:1 1 75%;
-	padding: 0px  20px;
+	padding: 0px  20px 40px;
 	display: flex;
 	flex-direction: column;
 	text-align: left;

@@ -30,6 +30,7 @@ export default {
       },
       bookApi:"https://www.googleapis.com/books/v1/volumes?q=",
       bookitem:[],
+      activeBookitem:null,
       bookPitem:null,
       seen:false,
       state:false,
@@ -52,16 +53,26 @@ export default {
       this.state = true;
       axios.get(`https://www.googleapis.com/books/v1/volumes?q=${this.query.q}`).then(function(resp){
         console.log(resp.data.items);
-        _this.bookitem = resp.data.items;
+        resp.data.items.forEach(function(item){
+          item.isActive = false;
+          item.wishlist = false;
+        });
+        _this.bookitem = resp.data.items; //
         _this.state = false;
         _this.requestInit = true;
         _this.searchText = _this.query.q;
       });
     },
-    openDrawer: function(index,xyz){
+    openDrawer: function(index, item){
       this.show = true;
-      this.isActive = true;
-      this.bookPitem = xyz;
+
+    if(this.activeBookitem != null){
+      this.activeBookitem.isActive = false;
+    }
+
+      this.activeBookitem = item;
+      this.activeBookitem.isActive = true;
+      this.bookPitem = item;
       this.getPosition(index, 4);
       console.log("hi")
     },
