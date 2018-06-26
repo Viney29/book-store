@@ -1,0 +1,17 @@
+<template>
+    <div id="cart-drawer">
+        User cart
+    </div>
+</template>
+
+<script>
+export default {
+
+}
+
+</script>
+
+<style scoped>
+
+</style>
+

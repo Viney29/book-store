@@ -1,7 +1,7 @@
 <template>
     <div class="book-item"  :style="{'order':index}" @click="openDrawer(index, bookInfo)" :class="{'active': isActive}">
         <div class="book-itemWrapper">
-            <div class="wishlist-icon" title="Add to wishlist" @click="">
+            <div class="wishlist-icon" title="Add to wishlist" >
                 <i class="fa fa-heart"></i>
                 <i class="fa fa-heart-o"></i>
             </div>

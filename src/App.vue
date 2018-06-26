@@ -1,17 +1,20 @@
 <template>
-  <div id="app">
-    <!-- <img src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/> -->
-    <search-bar :searchtext="query" :send-query="searchHit"/>
-    <span class="loader" v-if="state"><img src="./assets/loader.gif" alt="loader"></span>
-    <div class="searchresult">
-        <p class="searchlabel" v-if="requestInit" :style="{'opacity':state ? '0' : '1'}">Showing results for <b>{{searchText}}</b></p>
-        <div class="book-collection">
-          <bookItem :book-info="item" v-for="(item , index) in bookitem" :key="index"  :index="index + 1" :open-drawer="openDrawer"/>
-          <productDrawer v-if="show && bookPitem" :index="pindex" :bookdetail="bookPitem"/>
-        </div>
-    </div>
-  </div>
+	<div id="app" class="app-main">
+		<div class="app-sidebar">
+			<login/>
+		</div>
+		<div class="app-content">
+			<search-bar :searchtext="query" :send-query="searchHit"/>
+			<div class="searchresult">
+				<span class="loader" v-if="state"><img src="./assets/loader.gif" alt="loader"></span>
+				<p class="searchlabel" v-if="requestInit" :style="{'opacity':state ? '0' : '1'}">Showing results for <b>{{searchText}}</b></p>
+				<div class="book-collection">
+				<bookItem :book-info="item" v-for="(item , index) in bookitem" :key="index"  :index="index + 1" :open-drawer="openDrawer"/>
+				<productDrawer v-if="show && bookPitem" :index="pindex" :bookdetail="bookPitem"/>
+				</div>
+			</div>
+		</div>
+	</div>
 </template>
 
 <script>
@@ -19,6 +22,8 @@
 import searchBar from './components/search-bar.vue'
 import bookItem from './components/book-item'
 import productDrawer from './components/product-drawer'
+import login from './components/login'
+import cart from './components/cart'
 import axios from 'axios'
 
 export default {
@@ -45,7 +50,9 @@ export default {
     // HelloWorld
     searchBar,
     bookItem,
-    productDrawer
+    productDrawer,
+    login,
+    cart
   },
   methods:{
     searchHit: function(){
@@ -74,7 +81,6 @@ export default {
       this.activeBookitem.isActive = true;
       this.bookPitem = item;
       this.getPosition(index, 4);
-      console.log("hi")
     },
     getPosition: function(index, col){
       var rem = index % col;
@@ -87,7 +93,6 @@ export default {
         rem = index % col;
         var inc = col - rem;
         var updateIndex = index + inc;
-        console.log(updateIndex);
         this.pindex = updateIndex;
       }
     }
@@ -97,6 +102,11 @@ export default {
 </script>
 
 <style>
+/* html , body {
+	height: 100%;
+	overflow-x: hidden;
+} */
+
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -116,11 +126,11 @@ export default {
     flex-wrap:wrap;
     justify-content: center;
     max-width: 1200px;
-    margin:20px auto 0px;
+    margin:0px auto;
     width:100%;
 }
 .searchlabel {
-  margin-top: 20px;
+  margin: 20px 0px;
 }
 
 .searchlabel b {
@@ -137,12 +147,12 @@ export default {
   align-items: center;
   justify-content: center;
   text-align: center;
-  position: fixed;
-  top:0px;
-  left:0;
+  position: absolute;
+  top:0;
+  right:0;
   width: 100%;
   height: 100%;
-  background-color:rgba(0,0,0,.5);
+  background-color:rgba(0,0,0,.3);
   z-index: 9;
 }
 
@@ -151,6 +161,22 @@ export default {
     background-color:rgba(255,255,255,.3);
     padding:2px;
     border-radius:50%;
+}
+.app-main {
+	display: flex;
+	height: 100%;
+}
+
+.app-sidebar {
+	display: flex;
+	order:1;
+	flex:1 1 20%;
+	height: 100%;
+}
+
+.app-content {
+	order:1;
+	flex:1 1 80%;
 }
 </style>
 

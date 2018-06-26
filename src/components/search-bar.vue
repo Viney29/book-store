@@ -3,7 +3,7 @@
 		<h2>My Book Store</h2>
 		<div>
 			<div class="search-bar">
-				<input v-model="searchtext.q" type="text" @keyup="pressEnter" />
+				<input v-model="searchtext.q" type="text" @keyup="pressEnter" placeholder="Enter Book Name here"/>
 				<button @click="btnClick">Search</button>
 			</div>
 		</div>
@@ -30,10 +30,12 @@
 	},
 	methods:{
 		btnClick: function () {
-			this.sendQuery();
+			if (this.q === "" ){
+				this.sendQuery();
+			}
 		},
 		pressEnter: function(e){
-			if(e.keyCode == 13){
+			if (this.q === "" &&  e.keyCode == 13){
 				this.sendQuery();
 			}
 		}
@@ -51,7 +53,7 @@
 
 h2 {
 	font-size:32px;
-	color:#3e3d3e;
+	color:#a7a7a7;
 	text-transform: uppercase;
 	letter-spacing: 1px;
 }
