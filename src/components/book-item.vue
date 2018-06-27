@@ -1,8 +1,8 @@
 <template>
-    <div class="book-item"  :style="{'order':index}" @click="openDrawer(index, bookInfo)" :class="{'active': isActive}">
+    <div class="book-item"  :style="{'order':index}" @click="openDrawer(index, bookInfo)" :class="{'active': bookInfo.isActive}">
         <div class="book-itemWrapper">
-            <div class="wishlist-icon" title="Add to wishlist" >
-                <i class="fa fa-heart"></i>
+            <div class="wishlist-icon" title="Add to wishlist" @click="addWishlist(bookInfo)" :class="{'added': bookInfo.wishlist}">
+                <i class="fa fa-heart fill"></i>
                 <i class="fa fa-heart-o"></i>
             </div>
             <div class="book-image">
@@ -32,6 +32,10 @@ export default {
             type: Function,
             default: () => Function
         },
+        addWishlist:{
+            type: Function,
+            default: () => Function
+        },
         index: {
             type:Number,
             default:0
@@ -40,9 +44,6 @@ export default {
     computed:{
         priceGen:function(){
             return Math.round(Math.random() * 1000);
-        },
-        isActive: function(){
-            return this.bookInfo.isActive;
         }
     }
 }
@@ -137,6 +138,14 @@ export default {
     padding:0px 10px;
 }
 
+.fill {
+    opacity: 0;
+}
+
+.added .fill {
+    opacity: 1;;
+}
+
 a {
     color:#42b983;
 }
@@ -145,7 +154,7 @@ a {
     position: absolute;
     top:18px;
     right:20px;
-    padding: 5px;
+    padding: 16px;
     color:#9E2D4A;
     display: flex;
     z-index: 2;;

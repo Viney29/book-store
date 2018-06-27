@@ -25,17 +25,17 @@
 	},
 	data(){
 		return{
-			q: ""
+			// q: ""
 		}
 	},
 	methods:{
 		btnClick: function () {
-			if (this.q === "" ){
+			if (this.searchtext.q.trim()){
 				this.sendQuery();
 			}
 		},
 		pressEnter: function(e){
-			if (this.q === "" &&  e.keyCode == 13){
+			if (this.searchtext.q.trim() && e.keyCode == 13){
 				this.sendQuery();
 			}
 		}

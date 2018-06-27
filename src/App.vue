@@ -1,15 +1,22 @@
 <template>
 	<div id="app" class="app-main">
 		<div class="app-sidebar">
-			<login/>
+			<login :books="myBooks" />
 		</div>
 		<div class="app-content">
 			<search-bar :searchtext="query" :send-query="searchHit"/>
+      <span class="loader" v-if="state"><img src="./assets/loader.gif" alt="loader"></span>
 			<div class="searchresult">
-				<span class="loader" v-if="state"><img src="./assets/loader.gif" alt="loader"></span>
 				<p class="searchlabel" v-if="requestInit" :style="{'opacity':state ? '0' : '1'}">Showing results for <b>{{searchText}}</b></p>
 				<div class="book-collection">
-				<bookItem :book-info="item" v-for="(item , index) in bookitem" :key="index"  :index="index + 1" :open-drawer="openDrawer"/>
+				<bookItem
+          :book-info="item"
+          v-for="(item , index) in bookitem"
+          :key="index"
+          :index="index + 1"
+          :open-drawer="openDrawer"
+          :addWishlist="addTowishlist"
+        />
 				<productDrawer v-if="show && bookPitem" :index="pindex" :bookdetail="bookPitem"/>
 				</div>
 			</div>
@@ -43,7 +50,9 @@ export default {
       show:false,
       pindex:0,
       searchText: "",
-      isActive: false
+      wishlist:false,
+      isActive: false,
+      myBooks:[]
     }
   },
   components: {
@@ -95,6 +104,10 @@ export default {
         var updateIndex = index + inc;
         this.pindex = updateIndex;
       }
+    },
+    addTowishlist: function(item){
+      item.wishlist = !item.wishlist;
+      this.myBooks.push(item);
     }
   }
 }
@@ -102,10 +115,11 @@ export default {
 </script>
 
 <style>
-/* html , body {
+html , body {
 	height: 100%;
 	overflow-x: hidden;
-} */
+  overflow-y: scroll;
+}
 
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
