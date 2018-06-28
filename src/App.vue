@@ -5,18 +5,18 @@
 		</div>
 		<div class="app-content">
 			<search-bar :searchtext="query" :send-query="searchHit"/>
-      <span class="loader" v-if="state"><img src="./assets/loader.gif" alt="loader"></span>
+      		<span class="loader" v-if="state"><img src="./assets/loader.gif" alt="loader"></span>
 			<div class="searchresult">
 				<p class="searchlabel" v-if="requestInit" :style="{'opacity':state ? '0' : '1'}">Showing results for <b>{{searchText}}</b></p>
 				<div class="book-collection">
 				<bookItem
-          :book-info="item"
-          v-for="(item , index) in bookitem"
-          :key="index"
-          :index="index + 1"
-          :open-drawer="openDrawer"
-          :addWishlist="addTowishlist"
-        />
+					:book-info="item"
+					v-for="(item , index) in bookitem"
+					:key="index"
+					:index="index + 1"
+					:open-drawer="openDrawer"
+					:addWishlist="addTowishlist"
+        		/>
 				<productDrawer v-if="show && bookPitem" :index="pindex" :bookdetail="bookPitem"/>
 				</div>
 			</div>
@@ -107,7 +107,18 @@ export default {
     },
     addTowishlist: function(item){
       item.wishlist = !item.wishlist;
-      this.myBooks.push(item);
+
+      if(item.wishlist == true){
+        this.myBooks.push(item);
+	  }
+	  else{
+		for(var i = 0; i< this.myBooks.length; i++){
+			if(this.myBooks[i].id == item.id){
+				this.myBooks.splice(i,1);
+				break;
+			}
+		}
+      }
     }
   }
 }
@@ -168,6 +179,7 @@ html , body {
   height: 100%;
   background-color:rgba(0,0,0,.3);
   z-index: 9;
+  background-image: url('/src/assets/loader.gif');
 }
 
 .loader img {

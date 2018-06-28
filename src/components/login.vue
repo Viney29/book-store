@@ -7,7 +7,12 @@
         <div class="user-dashboard">
             <h2>My books</h2>
             <ul>
-                <li v-for="book in books" :key="book.id"></li>
+                <li v-for="(book , index) in books" :key="book.id">
+                    <div class="book-image">
+                        <img :src="book.volumeInfo.imageLinks.thumbnail" v-if="book.volumeInfo.imageLinks">
+                        <span v-else>No thumbail available</span>
+                    </div>
+                </li>
             </ul>
         </div>
     </div>
@@ -28,7 +33,7 @@ export default {
 
 <style scoped>
 .login-area {
-    justify-content: center;
+    padding-top:30px;
 	align-items: center;
     display: flex;
     position: fixed;
@@ -36,6 +41,38 @@ export default {
     height: 100%;
     flex:1;
     background-color:#6fb1ff;
+    flex-direction: column;
 }
+
+.user-dashboard {
+    width:100%;
+    padding-top: 25px;
+    border-top: 1px solid #43658b;
+    margin-top: 25px;
+}
+
+ul {
+    width:100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+ul li {
+    display: inline-block;
+    margin:5px;
+    list-style-type: none;
+    background: #fff;
+}
+
+.book-image {
+    max-width:60px;
+    width:100%;
+}
+
+.book-image img {
+    width:100%;
+}
+
 </style>
 
