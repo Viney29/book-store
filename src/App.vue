@@ -34,93 +34,96 @@ import cart from './components/cart'
 import axios from 'axios'
 
 export default {
-  name: 'app',
-  data(){
-    return{
-      query: {
-        q: ""
-      },
-      bookApi:"https://www.googleapis.com/books/v1/volumes?q=",
-      bookitem:[],
-      activeBookitem:null,
-      bookPitem:null,
-      seen:false,
-      state:false,
-      requestInit: false,
-      show:false,
-      pindex:0,
-      searchText: "",
-      wishlist:false,
-      isActive: false,
-      myBooks:[]
-    }
-  },
-  components: {
-    // HelloWorld
-    searchBar,
-    bookItem,
-    productDrawer,
-    login,
-    cart
-  },
-  methods:{
-    searchHit: function(){
-      let _this = this;
-      this.state = true;
-      axios.get(`https://www.googleapis.com/books/v1/volumes?q=${this.query.q}`).then(function(resp){
-        console.log(resp.data.items);
-        resp.data.items.forEach(function(item){
-          item.isActive = false;
-          item.wishlist = false;
-        });
-        _this.bookitem = resp.data.items; //
-        _this.state = false;
-        _this.requestInit = true;
-        _this.searchText = _this.query.q;
-      });
-    },
-    openDrawer: function(index, item){
-      this.show = true;
+	name: 'app',
+	data(){
+		return{
+			query: {
+				q: ""
+			},
+			bookApi:"https://www.googleapis.com/books/v1/volumes?q=",
+			bookitem:[],
+			activeBookitem:null,
+			bookPitem:null,
+			seen:false,
+			state:false,
+			requestInit: false,
+			show:false,
+			pindex:0,
+			searchText: "",
+			wishlist:false,
+			isActive: false,
+			myBooks:[]
+		}
+	},
+	components: {
+		// HelloWorld
+		searchBar,
+		bookItem,
+		productDrawer,
+		login,
+		cart
+	},
+	methods:{
+		searchHit: function(){
+			let _this = this;
+			this.state = true;
+			axios.get(`https://www.googleapis.com/books/v1/volumes?q=${this.query.q}`).then(function(resp){
+				console.log(resp.data.items);
+				resp.data.items.forEach(function(item){ // for add the new prop. in book item
+					item.isActive = false;
+					item.wishlist = false;
+				});
+				_this.bookitem = resp.data.items;
+				_this.state = false;
+				_this.requestInit = true;
+				_this.searchText = _this.query.q;
+			});
+		},
+		openDrawer: function(index, item){ // For open drawer on click on book items
+			this.show = true;
 
-    if(this.activeBookitem != null){
-      this.activeBookitem.isActive = false;
-    }
+			if(this.activeBookitem != null){
+				this.activeBookitem.isActive = false;
+			}
 
-      this.activeBookitem = item;
-      this.activeBookitem.isActive = true;
-      this.bookPitem = item;
-      this.getPosition(index, 4);
-    },
-    getPosition: function(index, col){
-      var rem = index % col;
-      if (index <= col) {
-        this.pindex = col;
-      }else if (rem == 0){
-        this.pindex = index;
-      }
-      else {
-        rem = index % col;
-        var inc = col - rem;
-        var updateIndex = index + inc;
-        this.pindex = updateIndex;
-      }
-    },
-    addTowishlist: function(item){
-      item.wishlist = !item.wishlist;
+			this.activeBookitem = item;
+			this.activeBookitem.isActive = true;
+			this.bookPitem = item;
+			this.getPosition(index, 4);
+		},
+		getPosition: function(index, col){ // For Setting the position of product drawer
+			if (window.innerWidth < 767) {
+				col = col - 2
+			}
+			var rem = index % col;
+			if (index <= col) {
+				this.pindex = col;
+			}else if (rem == 0){
+				this.pindex = index;
+			}
+			else {
+				rem = index % col;
+				var inc = col - rem;
+				var updateIndex = index + inc;
+				this.pindex = updateIndex;
+			}
+		},
+		addTowishlist: function(item){ // For add items into user dashboard
+			item.wishlist = !item.wishlist;
+			if(item.wishlist == true){
+				this.myBooks.push(item);
+			}
 
-      if(item.wishlist == true){
-        this.myBooks.push(item);
-	  }
-	  else{
-		for(var i = 0; i< this.myBooks.length; i++){
-			if(this.myBooks[i].id == item.id){
-				this.myBooks.splice(i,1);
-				break;
+			else{
+				for(var i = 0; i< this.myBooks.length; i++){
+					if(this.myBooks[i].id == item.id){
+						this.myBooks.splice(i,1);
+						break;
+					}
+				}
 			}
 		}
-      }
-    }
-  }
+ 	}
 }
 
 </script>
@@ -188,6 +191,7 @@ html , body {
     padding:2px;
     border-radius:50%;
 }
+
 .app-main {
 	display: flex;
 	height: 100%;
@@ -196,13 +200,24 @@ html , body {
 .app-sidebar {
 	display: flex;
 	order:1;
-	flex:1 1 20%;
+	flex:1 1 auto;
+	width:330px;
 	height: 100%;
 }
 
+
+
 .app-content {
 	order:1;
-	flex:1 1 80%;
+	flex:1 1 auto;
+	width:calc(100% - 330px);
 }
+
+@media only screen and (max-width : 979px){
+  .app-sidebar {
+    display: none;
+  }
+}
+
 </style>
 

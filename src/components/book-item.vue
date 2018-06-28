@@ -41,7 +41,7 @@ export default {
             default:0
         }
     },
-    computed:{
+    computed:{ // For random price on books
         priceGen:function(){
             return Math.round(Math.random() * 1000);
         }
@@ -53,7 +53,6 @@ export default {
 .book-item {
     flex:1 1 calc(25% - 30px);
     margin:15px;
-    /* border: 1px solid #42b983; */
     padding: 0px;
     max-width:calc(25% - 30px);
     width:100%;
@@ -61,7 +60,7 @@ export default {
     display: flex;
     flex-direction: column;
     cursor: pointer;
-
+    position: relative;
     transform: scale(.965);
     transition: all .1s linear;
 }
@@ -162,8 +161,31 @@ a {
     justify-content: center;
     font-size:20px;
 }
+
 .wishlist-icon .fa {
     position: absolute;
+}
+
+/*  .book-item:after {
+     content:"";
+     position: absolute;
+     top:100px;
+     right:0;
+     bottom:0;
+     left: 0;
+     z-index:-2;
+     box-shadow:0px 250px 15px -35px rgba(0,0,0,.25);
+     border-radius:50%;
+     transform:scaleY(.3);
+ } */
+
+@media only screen and (max-width : 767px){
+    .book-item {
+        flex:1 1 calc(50% - 20px);
+        margin:10px;
+        padding: 0px;
+        max-width:calc(50% - 20px);
+    }
 }
 
 </style>

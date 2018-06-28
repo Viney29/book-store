@@ -91,5 +91,31 @@ hr {
 	/* box-shadow:0px 4px 8px 1px #36495D; */
 	margin-bottom: 30px;
 }
+@media only screen and (max-width : 767px){
+	.search-bar {
+		margin:10px auto;
+		width:90%;
+		height:35px;
+	}
+
+	h2 {
+		font-size:20px;
+	}
+
+	.searchBar{
+		padding-top: 15px;
+	}
+
+	.search-bar input {
+		font-size: 16px;
+		text-indent: 15px;
+	}
+
+	.search-bar button {
+		font-size: 16px;
+		width:100px;
+		outline:none;
+	}
+}
 
 </style>

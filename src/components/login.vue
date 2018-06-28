@@ -37,7 +37,7 @@ export default {
 	align-items: center;
     display: flex;
     position: fixed;
-    width:20%;
+    width:330px;
     height: 100%;
     flex:1;
     background-color:#6fb1ff;
@@ -62,7 +62,7 @@ ul li {
     display: inline-block;
     margin:5px;
     list-style-type: none;
-    background: #fff;
+    background-color:#797979;
 }
 
 .book-image {
@@ -72,6 +72,9 @@ ul li {
 
 .book-image img {
     width:100%;
+    vertical-align: bottom;
+    object-fit: cover;
+    height: 90px;
 }
 
 </style>
