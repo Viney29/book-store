@@ -2,10 +2,10 @@
     <div class="login-area">
         <span>
             <i class="fa fa-user-circle-o" aria-hidden="true"></i><br>
-            User Login area
         </span>
+        <user-form/>
         <div class="user-dashboard">
-            <h2>My books</h2>
+            <h2>My Wishlist</h2>
             <ul>
                 <li v-for="(book , index) in books" :key="book.id">
                     <div class="book-image">
@@ -20,12 +20,18 @@
 </template>
 
 <script>
+
+import userForm from "./authenticate";
+
 export default {
     props:{
         books: {
             type: Function,
             default: () => Function
         }
+    },
+    components:{
+        userForm
     }
 }
 
@@ -68,6 +74,10 @@ ul li {
 .book-image {
     max-width:60px;
     width:100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .book-image img {
@@ -75,6 +85,11 @@ ul li {
     vertical-align: bottom;
     object-fit: cover;
     height: 90px;
+}
+.book-image span {
+    font-size: 10px;
+    color: #fff;
+    padding: 0px 5px;
 }
 
 </style>

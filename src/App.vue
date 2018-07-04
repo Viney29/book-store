@@ -52,7 +52,8 @@ export default {
 			searchText: "",
 			wishlist:false,
 			isActive: false,
-			myBooks:[]
+			myBooks:[],
+			gridItem: 4
 		}
 	},
 	components: {
@@ -89,12 +90,13 @@ export default {
 			this.activeBookitem = item;
 			this.activeBookitem.isActive = true;
 			this.bookPitem = item;
-			this.getPosition(index, 4);
+			if (window.innerWidth < 767) {
+				this.gridItem = 2;
+			}
+			this.getPosition(index, this.gridItem);
 		},
 		getPosition: function(index, col){ // For Setting the position of product drawer
-			if (window.innerWidth < 767) {
-				col = col - 2
-			}
+
 			var rem = index % col;
 			if (index <= col) {
 				this.pindex = col;
@@ -107,6 +109,14 @@ export default {
 				var updateIndex = index + inc;
 				this.pindex = updateIndex;
 			}
+		},
+		addUser: function(){
+			this.$http.post("https://book-store-29.firebaseio.com/users/-LGZ92xxJXSWxqNCPIoc.json", {
+				name: "viney new",
+				uid: "1221"
+			}).then(function(resp){
+				console.log(resp)
+			})
 		},
 		addTowishlist: function(item){ // For add items into user dashboard
 			item.wishlist = !item.wishlist;
@@ -132,7 +142,7 @@ export default {
 html , body {
 	height: 100%;
 	overflow-x: hidden;
-  overflow-y: scroll;
+    overflow-y: scroll;
 }
 
 #app {
@@ -157,6 +167,7 @@ html , body {
     margin:0px auto;
     width:100%;
 }
+
 .searchlabel {
   margin: 20px 0px;
 }
