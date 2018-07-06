@@ -1,28 +1,70 @@
 <template>
     <div class="user-login">
-        <div class="signUp-form">
+        <div class="signUp-form" v-if="formtype == form.signup">
             <form id="sign-up">
                 <label>Sign up</label>
-                <input type="text" placeholder="User Name" id="user-name">
-                <input type="password" placeholder="Passord" id="user-pwd">
-                <input type="password" placeholder="Re-enter Password">
-                <button type="submit">Save</button>
+                <input type="text" placeholder="Name" id="user-name" v-model="name">
+                <input type="email" placeholder="e-mail" id="user-email" v-model="email">
+                <input type="password" placeholder="Password" id="user-pwd" v-model="passWord">
+                <input type="password" placeholder="Re-enter Password" v-model="rePassword">
+                <button type="button" @click="submit()">Sign Up</button>
             </form>
+            <p>Already have a account <br> <span>Please login here.</span></p>
+            <a @click="changeForm(form.login)" class="c-btn">Log In</a>
         </div>
-        <div class="login-form">
+        <div class="login-form" v-if="formtype == form.login">
             <form id="login">
                 <label>Login</label>
-                <input type="text" placeholder="User Name">
-                <input type="password" placeholder="Passord">
-                <button type="submit" id="login">Login</button>
+                <input type="email" placeholder="User Name" v-model="email">
+                <input type="password" placeholder="Passord" v-model="passWord">
+                <button type="button" id="userlogin" @click="logIn()">Login</button>
             </form>
+            <p>Create a new account <br> <span>It's free and always will be.</span></p>
+            <a @click="changeForm(form.signup)" class="c-btn">Sign Up</a>
         </div>
     </div>
 </template>
 
 <script>
 export default {
+    data(){
+        return{
+            name:'',
+            email:'',
+            passWord:'',
+            rePassword: '',
+            form:{
+                login: 'login',
+                signup: 'signup'
+            },
+            formtype:''
+        }
+    },
 
+    mounted(){
+        this.formtype = this.form.login;
+    },
+
+    methods: {
+        changeForm: function(formtype){
+            this.formtype = formtype;
+        },
+        submit: function(){
+            if (this.passWord == this.rePassword && (this.passWord && this.email) ){
+                this.registerUser({
+                    name:this.name,
+                    email:this.email,
+                    password:this.passWord
+                })
+            }
+
+        },
+        registerUser: function(data){
+			this.$http.post("https://book-store-29.firebaseio.com/users.json", data).then(function(resp){
+				console.log('user registered')
+			})
+		},
+    }
 }
 </script>
 
@@ -59,6 +101,14 @@ form button {
     width:100%;
     max-width:180px;
     margin: 20px auto;
+}
+
+.c-btn {
+    display: inline-block;
+    font-weight:bold;
+    text-decoration: underline;
+    margin-top:10px;
+    cursor: pointer;
 }
 
 </style>

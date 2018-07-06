@@ -153,6 +153,11 @@ html , body {
   color: #2c3e50;
 }
 
+/* .app-main {
+	max-width:1600px;
+	margin:0px auto;
+} */
+
 * {
   box-sizing: border-box;
   margin:0px;

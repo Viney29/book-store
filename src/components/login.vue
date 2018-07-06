@@ -1,6 +1,6 @@
 <template>
     <div class="login-area">
-        <span>
+        <span class="user-icon">
             <i class="fa fa-user-circle-o" aria-hidden="true"></i><br>
         </span>
         <user-form/>
@@ -90,6 +90,10 @@ ul li {
     font-size: 10px;
     color: #fff;
     padding: 0px 5px;
+}
+
+.user-icon {
+    font-size: 40px;
 }
 
 </style>
