@@ -33,6 +33,8 @@ import login from './components/login'
 import cart from './components/cart'
 import axios from 'axios'
 
+import { mapState, mapMutations } from "vuex"
+
 export default {
 	name: 'app',
 	data(){
@@ -53,7 +55,8 @@ export default {
 			wishlist:false,
 			isActive: false,
 			myBooks:[],
-			gridItem: 4
+			gridItem: 4,
+			users:[]
 		}
 	},
 	components: {
@@ -64,7 +67,22 @@ export default {
 		login,
 		cart
 	},
+
+	mounted(){
+		this.getUsers();
+		this.setUsers(this.users);
+	},
+
+	computed:{
+		...mapState({
+			mapUsers: state => state.users
+		})
+	},
+
 	methods:{
+		...mapMutations([
+			"setUsers"
+		]),
 		searchHit: function(){
 			let _this = this;
 			this.state = true;
@@ -110,13 +128,19 @@ export default {
 				this.pindex = updateIndex;
 			}
 		},
-		addUser: function(){
-			this.$http.post("https://book-store-29.firebaseio.com/users/-LGZ92xxJXSWxqNCPIoc.json", {
-				name: "viney new",
-				uid: "1221"
-			}).then(function(resp){
-				console.log(resp)
-			})
+		filterData(users){
+			for( var id in users ){
+				this.users.push({
+					id: id,
+					data: users[id]
+				})
+			}
+		},
+		getUsers: function(){
+			let _this = this;
+			this.$http.get("https://book-store-29.firebaseio.com/users.json").then(function(resp){
+				_this.filterData(resp.body);
+			});
 		},
 		addTowishlist: function(item){ // For add items into user dashboard
 			item.wishlist = !item.wishlist;
@@ -133,7 +157,7 @@ export default {
 				}
 			}
 		}
- 	}
+	}
 }
 
 </script>

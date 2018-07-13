@@ -59,9 +59,17 @@ export default {
             }
 
         },
+        logIn(){
+
+        },
+        clearForm: function(){
+            this.name = this.email = this.passWord = this.rePassword = '';
+        },
         registerUser: function(data){
+            let _this = this;
 			this.$http.post("https://book-store-29.firebaseio.com/users.json", data).then(function(resp){
-				console.log('user registered')
+                alert('Register successfully');
+                _this.clearForm();
 			})
 		},
     }
