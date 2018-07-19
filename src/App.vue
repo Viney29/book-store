@@ -33,7 +33,7 @@ import login from './components/login'
 import cart from './components/cart'
 import axios from 'axios'
 
-import { mapState, mapMutations } from "vuex"
+// import { mapState, mapMutations } from "vuex"
 
 export default {
 	name: 'app',
@@ -70,19 +70,19 @@ export default {
 
 	mounted(){
 		this.getUsers();
-		this.setUsers(this.users);
+		// this.addUsers(["vinay"]);
 	},
 
-	computed:{
-		...mapState({
-			mapUsers: state => state.users
-		})
-	},
+	// computed:{
+	// 	...mapState({
+	// 		mapUsers: state => state.users
+	// 	})
+	// },
 
 	methods:{
-		...mapMutations([
-			"setUsers"
-		]),
+		// ...mapMutations([
+		// 	"addUsers"
+		// ]),
 		searchHit: function(){
 			let _this = this;
 			this.state = true;

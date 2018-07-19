@@ -37,12 +37,16 @@ export default {
                 login: 'login',
                 signup: 'signup'
             },
-            formtype:''
+            formtype:'',
+            userData:[]
         }
     },
 
     mounted(){
         this.formtype = this.form.login;
+        this.getUsers();
+        // this.Userdata = this.$http.post("https://book-store-29.firebaseio.com/users.json", data);
+        // console.log( this.Userdata);
     },
 
     methods: {
@@ -59,9 +63,35 @@ export default {
             }
 
         },
-        logIn(){
-
+        authenticateUser(userData){
+            for( var user in userData) {
+                if( this.email == user.email && this.password == user.password){
+                    console.log('User logged in');
+                }else {
+                    alert('No user found');
+                }
+            }
         },
+        logIn(){
+            email = this.email;
+            password =  this.passWord;
+            this.authenticateUser();
+        },
+        filterData(users){
+			for( var id in users ){
+				this.userData.push({
+					id: id,
+					data: users[id]
+				})
+            }
+            console.log(this.userData);
+		},
+		getUsers: function(){
+			let _this = this;
+			this.$http.get("https://book-store-29.firebaseio.com/users.json").then(function(resp){
+				_this.filterData(resp.body);
+			});
+		},
         clearForm: function(){
             this.name = this.email = this.passWord = this.rePassword = '';
         },
@@ -70,6 +100,7 @@ export default {
 			this.$http.post("https://book-store-29.firebaseio.com/users.json", data).then(function(resp){
                 alert('Register successfully');
                 _this.clearForm();
+                _this.formtype = _this.form.login;
 			})
 		},
     }
