@@ -19,6 +19,7 @@
                 <input type="password" placeholder="Passord" v-model="passWord">
                 <button type="button" id="userlogin" @click="logIn()">Login</button>
             </form>
+            <p>{{ activeUserName }}</p>
             <p>Create a new account <br> <span>It's free and always will be.</span></p>
             <a @click="changeForm(form.signup)" class="c-btn">Sign Up</a>
         </div>
@@ -38,7 +39,9 @@ export default {
                 signup: 'signup'
             },
             formtype:'',
-            userData:[]
+            userData:[],
+            authenticate: false,
+            activeUser:{}
         }
     },
 
@@ -64,18 +67,23 @@ export default {
 
         },
         authenticateUser(userData){
-            for( var user in userData) {
-                if( this.email == user.email && this.password == user.password){
+            let _this = this;
+            for(var i = 0; i < _this.userData.length; i++){
+                let user = _this.userData[i].data;
+                if( _this.email == user.email && _this.passWord == user.password){
                     console.log('User logged in');
-                }else {
-                    alert('No user found');
+                    _this.authenticate = true;
+                    _this.activeUser = _this.userData[i];
+                    break;
                 }
+            };
+            if(!_this.authenticate) {
+                alert('User not Found');
             }
         },
         logIn(){
-            email = this.email;
-            password =  this.passWord;
             this.authenticateUser();
+
         },
         filterData(users){
 			for( var id in users ){
@@ -103,6 +111,11 @@ export default {
                 _this.formtype = _this.form.login;
 			})
 		},
+    },
+    computed:{
+        activeUserName(){
+            return this.activeUser.data ? this.activeUser.data.name : ""
+        }
     }
 }
 </script>
